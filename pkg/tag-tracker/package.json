@@ -1,0 +1,16 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/tag-tracker",
+  "description": "Class for adding, tracking, and querying objects with associated tags.",
+  "version": "1.1.15",
+  "dependencies": {
+    "@gov.nasa.jpl.honeycomb/event-dispatcher": "^1.1.15"
+  },
+  "main": "src/TagTracker.ts",
+  "module": "src/TagTracker.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "gitHead": "d671cf0fcdba4a75b37ab8a9b948067f0d5e99ba"
+}

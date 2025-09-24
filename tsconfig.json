@@ -1,0 +1,31 @@
+{
+    "extends": "@grafana/tsconfig",
+    "compilerOptions": {
+        "target": "es2020",
+        "alwaysStrict": true,
+        "declaration": false,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "moduleResolution": "Bundler",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "resolveJsonModule": true
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs",
+            "target": "es2020",
+            "moduleResolution": "Node",
+            "esModuleInterop": true
+        },
+        "transpileOnly": true
+    },
+    "include": [
+        "./pkg/",
+        "./app/",
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -1,0 +1,38 @@
+apiVersion: 1
+
+datasources:
+  - uid: adz09iq6tmmf4e
+    orgId: 1
+    name: influxdb
+    type: influxdb
+    typeName: InfluxDB
+    typeLogoUrl: public/app/plugins/datasource/influxdb/img/influxdb_logo.svg
+    access: proxy
+    url: http://db:8086
+    user: ""
+    database: "honeycomb"
+    basicAuth: false
+    isDefault: false
+    jsonData:
+      httpMode: POST
+      organization: honeycomb
+      tlsAuthWithCACert: false
+      tlsSkipVerify: false
+      version: Flux
+    secureJsonData:
+      token: $GF_INFLUX_ADMIN_TOKEN
+    readOnly: true
+  - uid: be2z0c9i77doge
+    orgId: 1
+    name: Test Data
+    type: grafana-testdata-datasource
+    typeName: TestData
+    typeLogoUrl: public/app/plugins/datasource/grafana-testdata-datasource/img/testdata.svg
+    access: proxy
+    url: ''
+    user: ''
+    database: ''
+    basicAuth: false
+    isDefault: false
+    jsonData: {}
+    readOnly: false

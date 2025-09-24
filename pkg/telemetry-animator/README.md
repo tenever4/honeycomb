@@ -1,0 +1,963 @@
+# Telemetry Animator
+
+Animators that take a set of data frames and tracks playback.
+
+Frames are expected in the following form and sorted by time. Time is not required to be in a specific format.
+
+```js
+[
+    {
+        time: <number>,
+        state: <object>
+    },
+    ...
+]
+```
+
+!> The KeyframeAnimator and LiveAnimator classes use the [object-cache](../object-cache/README.md) package to cache keyframes so it is assumed that all array data is consistently typed.
+
+<!--{package-dependencies ./package.json}-->
+
+# Use
+
+## Using an Animator
+```js
+import { TelemetryAnimator } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+
+// ...
+
+const animator = new TelemetryAnimator(frames);
+animator.onChange = state => {
+    console.log('New State: ', state);
+}
+
+let lastTime = window.performance.now();
+const loop = () => {
+    const delta = window.performance.now() - lastTime;
+    lastTime = window.performance.now();
+
+    animator.step(delta);
+
+    requestAnimationFrame(loop);
+}
+```
+
+## Adding Custom Telemetry Rollup
+
+```js
+import { CustomTelemetryAnimator } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+
+const mergeMap = {
+
+    data: ( from, to ) => {
+
+        if ( ! Array.isArray( to ) ) {
+
+            to = [];
+
+        }
+        to.push( from );
+
+    }
+
+};
+
+const frames = [
+    { time: 1, state: { data: 1 } },
+    { time: 2, state: { data: 2 } },
+];
+const animator = new CustomTelemetryAnimator( frames, { mergeMap } );
+animator.setTime( 3 );
+
+console.log( animator.state );
+// { data: [ 1, 2 ] }
+
+```
+
+## Data from a Websocket
+
+```js
+import { TelemetryAnimator } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+const animator = new TelemetryAnimator();
+
+// Disable seekability so we always display the latest
+// websocket data and we won't keep old data around.
+animator.seekable = false;
+ws.on('data', e => {
+
+    animator.addFrames([{
+        time: window.performance.now(),
+        state: e.state,
+    }]);
+
+});
+
+animator.addEventListener('change', () => {
+    animator.setTime(window.performance.now());
+});
+```
+
+## Seekable data from a Websocket
+
+TODO
+
+## Preprocessing Data From File Paths in State
+
+```js
+import { TelemetryAnimator, LookAheadAnimatorMixin } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+
+const LookAheadAnimator = LookAheadAnimatorMixin(TelemetryAnimator);
+const animator = new LookAheadAnimator();
+
+const cache = {};
+animator.preloadData = function( state ) {
+
+    if ( 'filePath' in state ) {
+
+        const path = state.filePath;
+
+        if ( ! ( path in cache ) ) {
+
+            const controller = new AbortController();
+            const info = {};
+            info.controller = controller;
+            info.references = 0;
+            info.promise = fetch( path, { signal: controller.signal } )
+                .then( res => res.buffer() )
+                .then( buffer => ( info.buffer = buffer ) );
+            cache[path] = info;
+
+        }
+
+        info.references ++;
+        return info.promise;
+
+    } else {
+
+        return null;
+
+    }
+
+};
+
+animator.unloadData = function( state ) {
+
+    if ( 'filePath' in state ) {
+
+        const path = state.filePath;
+        const info = cache[ path ];
+        info.references --;
+        if ( info.references === 0 ) {
+
+            info.controller.abort();
+            delete cache[ path ];
+
+        }
+
+    }
+
+}
+
+animator.preprocessState = function( state ) {
+
+    if ( 'filePath' in state ) {
+
+        const path = state.filePath;
+        const info = cache[ path ];
+        if ( info.buffer ) {
+
+            state.loadedData = buffer;
+            return true;
+
+        }
+
+    }
+
+    return false;
+
+}
+```
+
+## Buffering Large Files from HTTP
+
+```js
+import { TelemetryAnimator, BuferedAnimatorMixin } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+
+const BufferedAnimator = BuferedAnimatorMixin(TelemetryAnimator);
+const animator = new BufferedAnimator();
+animator.getFrames = function( time, duration ) {
+
+    return fetch( `./data/server/?time=${ time }&duration=${ duration }` )
+        .then( res => res.json() )
+        .then( json => json.frames );
+
+};
+```
+
+## Buffering Large Files from Disk
+
+```js
+import { TelemetryAnimator, BuferedAnimatorMixin } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+
+const BufferedAnimator = BuferedAnimatorMixin(TelemetryAnimator);
+const animator = new BufferedAnimator();
+animator.getFrames = async function( time, duration ) {
+
+    let frames;
+
+    // ... read frame data at times from disk into frames variables in an async manner ...
+
+    return frames;
+
+};
+```
+
+## Preprocessing a file to use Keyframes
+
+```js
+import { TelemetryAnimator, KeyframeAnimatorMixin, BufferedAnimatorMixin } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
+
+const AnimatorClass = KeyframeAnimatorMixin(BuferedAnimatorMixin(TelemetryAnimator));
+const animator = new AnimatorClass();
+
+// ... set up buffered animator functions ...
+
+await animator.generateKeyframes();
+```
+
+## Live Data With File Cache
+
+TODO
+
+# API
+
+<!-- START_AUTOGENERATED_DOCS -->
+## Functions
+### BufferedAnimatorMixin<a name="BufferedAnimatorMixin"></a>
+
+```js
+BufferedAnimatorMixin( base : class ) : void
+```
+
+Mixin function that produces a new class that inherits from base and mixes
+in [BufferedAnimator](#BufferedAnimator). Base class is expected to
+derive from [TelemetryAnimator](#TelemetryAnimator).
+
+### LookAheadAnimatorMixin<a name="LookAheadAnimatorMixin"></a>
+
+```js
+LookAheadAnimatorMixin( base : class ) : void
+```
+
+Mixin function that produces a new class that inherits from base and mixes
+in [LookAheadAnimator](#LookAheadAnimator). Base class is expected to
+derive from [TelemetryAnimator](#TelemetryAnimator).
+
+### KeyframeAnimatorMixin<a name="KeyframeAnimatorMixin"></a>
+
+```js
+KeyframeAnimatorMixin( base : class ) : void
+```
+
+Mixin function that produces a new class that inherits from base and mixes
+in [KeyframeAnimator](#KeyframeAnimator). Base class is expected to
+derive from [TelemetryAnimator](#TelemetryAnimator).
+
+## Frame
+
+### time<a name="Frame#time"></a>
+
+```js
+time : Number
+```
+
+
+The time in milliseconds that this frame is associated with.
+
+
+### state<a name="Frame#state"></a>
+
+```js
+state : Object
+```
+
+
+An object that represents a set of data for this time.
+
+
+## TelemetryAnimator
+
+Class that manages and can step through a set of frames over time.
+
+_extends EventDispatcher_
+
+### Events
+
+`added-frames`
+
+Fired when new frames are added to the animator.
+
+`change`
+
+Fired when the rolled up state has changed.
+
+`reset`
+
+Fired when the animator has been reset.
+
+`dispose`
+
+Fired when the animator has been disposed.
+
+### ready<a name="TelemetryAnimator#ready"></a>
+
+```js
+ready : Boolean
+```
+
+
+Returns whether or not frames are available to be animated.
+
+
+### startTime<a name="TelemetryAnimator#startTime"></a>
+
+```js
+startTime : Number
+```
+
+
+The beginning time for the frames.
+
+
+### endTime<a name="TelemetryAnimator#endTime"></a>
+
+```js
+endTime : Number
+```
+
+
+The end time for the frames.
+
+
+### seekable<a name="TelemetryAnimator#seekable"></a>
+
+```js
+seekable : Boolean = true
+```
+
+
+Whether or not this animator can be rewound. Set this to false if
+using a websocket and frames are being streamed in using
+[.addFrames](#TelemetryAnimator#addFrames). If false old data
+behind the playhead will be discarded.
+
+!> Note that if the playhead is not kept at the latest frame using
+[.setTime](#TelemetryAnimator#setTime) then frames could be
+accumulated using addFrames and overrun available memory.
+
+
+### nonSeekableBuffer<a name="TelemetryAnimator#nonSeekableBuffer"></a>
+
+```js
+nonSeekableBuffer : Number = 0
+```
+
+
+The duration of frames to retain when seekable === false.
+
+
+### liveData<a name="TelemetryAnimator#liveData"></a>
+
+```js
+liveData : Boolean = false
+```
+
+
+A field indicating that the data provided by the animator is coming
+in live, such as through a websocket. This doesn't change the
+behavior of the class and is just an informative flag.
+
+
+### continuous<a name="TelemetryAnimator#continuous"></a>
+
+```js
+continuous : Boolean = false
+```
+
+
+If true indicates that data can be interpolated and if the time is set
+to before the start time of the frames the initial frame data is
+assumed to be set before frame 0.
+
+
+### interpolate<a name="TelemetryAnimator#interpolate"></a>
+
+```js
+interpolate : Boolean = true
+```
+
+
+If `true` then the values in returned state are interpolated when the
+current time lands in between frames.
+
+
+### traverseArrays<a name="TelemetryAnimator#traverseArrays"></a>
+
+```js
+traverseArrays : Boolean = false
+```
+
+
+By default arrays in states are copied when being merging states
+rather than merging objects within the array. Setting this field to
+true enables copying and deep merging objects within the array.
+
+
+### stale<a name="TelemetryAnimator#stale"></a>
+
+```js
+stale : Boolean = false
+```
+
+
+If `true` indicates that the current data is out of date and waiting
+on something to be up to date. This flag can be set by derivative
+animators that dynamically fetch data from the server or preprocess
+data and may not be ready immediately especially when jumping ahead.
+
+
+### frames<a name="TelemetryAnimator#frames"></a>
+
+```js
+frames : Array<Frame> = null
+```
+
+
+The array of frames the animator will iterate over.
+
+
+### time<a name="TelemetryAnimator#time"></a>
+
+```js
+time : Number = 0
+```
+
+
+The current time the animator has iterated up to and that state is
+set to.
+
+
+### state<a name="TelemetryAnimator#state"></a>
+
+```js
+state : Object
+```
+
+
+The last state stepped to. If interpolation = true then this
+will included interpolation.
+
+
+### constructor
+
+```js
+constructor( frames : Array<Frames> = null ) : void
+```
+
+### setTime<a name="TelemetryAnimator#setTime"></a>
+
+```js
+setTime( time : Number ) : Promise
+```
+
+Set the time to track the animator up to. Frames will be iterated over to
+the given time and merged using the [mergeState](#TelemetryAnimator#mergeState) function. If the given time is between frames and
+[interpolate](#TelemetryAnimator#interpolate) is true, then the
+[interpolateState](#TelemetryAnimator#interpolateState) function
+will be used to interpolate the data.
+
+The resultant state will be set on [state](#TelemetryAnimator#state) and the current time on [time](#TelemetryAnimator#time).
+
+### findFrameAtTime<a name="TelemetryAnimator#findFrameAtTime"></a>
+
+```js
+findFrameAtTime( time : Number, nextFrame : Boolean = false ) : Frame
+```
+
+Performs a binary search to find the frame at the given time. Returns the
+frame (which should not be modified) that occurs on or right before the
+given time. If `nextTime` is `true` then the frame after the given time
+is returned.
+
+### getNextSignificantTime<a name="TelemetryAnimator#getNextSignificantTime"></a>
+
+```js
+getNextSignificantTime(  ) : Number
+```
+
+Returns the time of the next frame after the current
+[time](#TelemetryAnimator#time) that the animator is at.
+
+### getPrevSignificantTime<a name="TelemetryAnimator#getPrevSignificantTime"></a>
+
+```js
+getPrevSignificantTime(  ) : Number
+```
+
+Returns the time of the previous frame before the current
+[time](#TelemetryAnimator#time) that the animator is at.
+
+### reset<a name="TelemetryAnimator#reset"></a>
+
+```js
+reset(  ) : Promise
+```
+
+Resets the animation to time 0. This is called every time the time is
+reversed in order to re-roll up all frames to the new time. Returns a
+promise when the animator has finished resetting in case setting the time
+requires asynchronous loading.
+
+### forEachFrame<a name="TelemetryAnimator#forEachFrame"></a>
+
+```js
+forEachFrame( cb : ( frame : Frame ) => void, options : Object = null ) : Promise
+```
+
+Iterates over and calls `cb` for every frame in the data set. By default
+every frame is iterated over and merged. If the callback returns "true"
+then the iteration ends early. The set of options available options are:
+```js
+{
+     // If true then an unmerged frame state will be provided
+     raw = false : boolean,
+
+     // The time bounds over which to iterate. Defaults to all frames
+     startTime : number,
+     endTime : number
+}
+```
+
+Returns a promise that resolves when all frames have been iterated over
+in the case that frames need to be loaded and processed asynchronously.
+
+### seekBack<a name="TelemetryAnimator#seekBack"></a>
+
+```js
+seekBack( cb : ( frame : Frame ) => void, fromTime : Number | null = null ) : void
+```
+
+Look back through all available frames that are currently loaded. Stops
+when "true" is returned from the callback or all data is iterated over.
+Raw, unmerged frame state data is passed into the callback
+
+### optimize<a name="TelemetryAnimator#optimize"></a>
+
+```js
+optimize(  ) : void
+```
+
+Merges any frames that describe the same point in time to minimize the
+amount of frames stored and iterated over.
+
+### sort<a name="TelemetryAnimator#sort"></a>
+
+```js
+sort(  ) : void
+```
+
+Sorts the frames by the time field.
+
+### addFrames<a name="TelemetryAnimator#addFrames"></a>
+
+```js
+addFrames( newFrames : Array<Frame> ) : void
+```
+
+Appends the given frames to the list of loaded frames. It is assumed that
+these frames are already sorted and come after the set of already
+loaded frames.
+
+### dispose<a name="TelemetryAnimator#dispose"></a>
+
+```js
+dispose(  ) : void
+```
+
+Marks the animator as disposed so any async tasks can cancel and not
+resolve.
+
+### interpolateState<a name="TelemetryAnimator#interpolateState"></a>
+
+```js
+interpolateState( currState : Object, nextState : Object, ratio : Number, target : Object ) : void
+```
+
+The function that is called to interpolate a state object. The
+interpolated values are expected to be placed on the `target` object.
+`currState` and `nextState` are to not be modified. The target object (or
+a replacement for it) is expected to be returned.
+
+Intended to be overriden by derivative classes. By default only shallow
+fields are interpolated.
+
+### mergeState<a name="TelemetryAnimator#mergeState"></a>
+
+```js
+mergeState( from : Object, to : Object ) : void
+```
+
+The function that is called to merge states when iterating over frames.
+The fields from `from` are expected to be copied or moved onto `to`.
+
+Intended to be overriden by derivative classes. By default only shallow
+fields are moved onto `to`.
+
+## JoinedTelemetryAnimator
+
+Animator made up of multiple animators and produces a state composed of
+all frame data in the child canimators.
+
+_extends TelemetryAnimator, EventDispatcher_
+
+### ready<a name="JoinedTelemetryAnimator#ready"></a>
+
+```js
+ready : Boolean
+```
+
+
+
+### seekable<a name="JoinedTelemetryAnimator#seekable"></a>
+
+```js
+seekable : Boolean
+```
+
+
+
+### liveData<a name="JoinedTelemetryAnimator#liveData"></a>
+
+```js
+liveData : Boolean
+```
+
+
+
+### interpolate<a name="JoinedTelemetryAnimator#interpolate"></a>
+
+```js
+interpolate : Boolean
+```
+
+
+
+### stale<a name="JoinedTelemetryAnimator#stale"></a>
+
+```js
+stale : Boolean
+```
+
+
+
+### endTime<a name="JoinedTelemetryAnimator#endTime"></a>
+
+```js
+endTime : Number
+```
+
+
+
+### startTime<a name="JoinedTelemetryAnimator#startTime"></a>
+
+```js
+startTime : Number
+```
+
+
+
+### generatingKeyframes<a name="JoinedTelemetryAnimator#generatingKeyframes"></a>
+
+```js
+generatingKeyframes : Boolean
+```
+
+
+
+### generatedKeyframesUpTo<a name="JoinedTelemetryAnimator#generatedKeyframesUpTo"></a>
+
+```js
+generatedKeyframesUpTo : Number
+```
+
+
+
+### animators<a name="JoinedTelemetryAnimator#animators"></a>
+
+```js
+animators : Object<String, TelemetryAniamtor>
+```
+
+
+
+### state<a name="JoinedTelemetryAnimator#state"></a>
+
+```js
+state : Object
+```
+
+
+
+### time<a name="JoinedTelemetryAnimator#time"></a>
+
+```js
+time : Number
+```
+
+
+
+### constructor
+
+```js
+constructor( animators : Object<String, TelemetryAniamtor> = {} ) : void
+```
+
+### addAnimator<a name="JoinedTelemetryAnimator#addAnimator"></a>
+
+```js
+addAnimator( animator : TelemetryAnimator, id : String ) : void
+```
+
+Add an animator with the given name.
+
+### removeAnimator<a name="JoinedTelemetryAnimator#removeAnimator"></a>
+
+```js
+removeAnimator( name : String ) : void
+```
+
+Removes the animator with the given name.
+
+## NestedTelemetryAnimator
+
+Telemetry Animator that can handle interpolating nested objects
+
+_extends TelemetryAnimator_
+
+### args<a name="NestedTelemetryAnimator#args"></a>
+
+```js
+args : ...null
+```
+
+
+
+## BufferedAnimator
+
+Mixin class used for dynamically reading frames from disk or fetching them
+in chunks via a custom `getFrames` implementation. Use if the full set of
+frame data cannot be loaded at once.
+
+### chunkSize<a name="BufferedAnimatorchunkSize"></a>
+
+```js
+chunkSize : Number = 1
+```
+
+
+The size of a "chunk" of frames or the amount of frames
+to load at once relative to the datas time scale
+
+
+### buffer<a name="BufferedAnimatorbuffer"></a>
+
+```js
+buffer : Number = 5
+```
+
+
+The buffer amount relative to the datas time scale before and
+after the current time to load.
+
+
+### constructor
+
+```js
+constructor( options : Object = {} ) : void
+```
+
+Frames array is not taken because it is read as needed.
+
+## CustomTelemetryAnimator
+
+Provides means for creating an animator with custom merge and interpolate
+functions for different sub objects.
+
+_extends NestedTelemetryAnimator_
+
+### constructor
+
+```js
+constructor( frames : Array<Frame>, options : Object = {} ) : void
+```
+
+Options object can take a value for [interpolateMap](#CustomTelemetryAnimator#interpolateMap) and [#CustomTelemetryAnimator#mergeMap](#CustomTelemetryAnimator#mergeMap).
+
+## LiveAnimator
+
+A wrapper animator that helps facilitate live data playback and caching of
+frames for scrubbing.
+
+_extends TelemetryAnimator, EventDispatcher_
+
+### endTime<a name="LiveAnimator#endTime"></a>
+
+```js
+endTime : Boolean
+```
+
+
+
+### startTime<a name="LiveAnimator#startTime"></a>
+
+```js
+startTime : Boolean
+```
+
+
+
+### stale<a name="LiveAnimator#stale"></a>
+
+```js
+stale : Boolean
+```
+
+
+
+### state<a name="LiveAnimator#state"></a>
+
+```js
+state : Object
+```
+
+
+
+### interpolate<a name="LiveAnimator#interpolate"></a>
+
+```js
+interpolate : Boolean
+```
+
+
+
+### traverseArrays<a name="LiveAnimator#traverseArrays"></a>
+
+```js
+traverseArrays : Boolean
+```
+
+
+
+### connected<a name="LiveAnimator#connected"></a>
+
+```js
+connected : Boolean
+```
+
+
+
+### connectionHost<a name="LiveAnimator#connectionHost"></a>
+
+```js
+connectionHost : String
+```
+
+
+
+### connectionChangeTime<a name="LiveAnimator#connectionChangeTime"></a>
+
+```js
+connectionChangeTime : Date | null
+```
+
+
+
+### constructor
+
+```js
+constructor(
+	streamingAnimator : TelemetryAnimator, 
+	bufferedKeyframeAnimator : BufferedKeyframeAnimator
+) : void
+```
+
+Takes an animator that is filled with the latest streaming data and
+another that spools and reads data to and from disk for scrolling back
+in time.
+
+## LookAheadAnimator
+
+Mixin class used for premptively loading data for upcoming (and previous) frames
+within some threshold. Used when frame data contains references to external data
+that must be loaded ahead of time. When frames leave the provided window any loaded
+data is unloaded and pending loads are cancelled.
+
+### lookAhead<a name="LookAheadAnimatorlookAhead"></a>
+
+```js
+lookAhead : Number = 1000
+```
+
+
+The amount of time in milliseconds to look ahead to prep loaded data.
+
+
+### lookBack<a name="LookAheadAnimatorlookBack"></a>
+
+```js
+lookBack : Number = 100
+```
+
+
+The amount of time in milliseconds to look back to prep loaded data.
+
+
+## KeyframeAnimator
+
+Mixin class used for generating keyframes up front using an ObjectCache and
+reading those keyframes as the time is scrubbed to avoid having to iterate
+over all prior frames. Used for cases when all telemetry data must be progressively
+read from disk on demand because it's too much to read into memory.
+
+### keyframeStride<a name="KeyframeAnimatorkeyframeStride"></a>
+
+```js
+keyframeStride : Number = 5
+```
+
+
+The time relative to the datas time scale between generated keyframes.
+
+
+### generatingKeyframes<a name="KeyframeAnimatorgeneratingKeyframes"></a>
+
+```js
+generatingKeyframes : Boolean
+```
+
+
+Whether or not keyframes are actively being generated.
+
+
+### generatedKeyframesUpTo<a name="KeyframeAnimatorgeneratedKeyframesUpTo"></a>
+
+```js
+generatedKeyframesUpTo : Number
+```
+
+
+The time in milliseconds that keyframes have been generated up to.
+
+
+
+<!-- END_AUTOGENERATED_DOCS -->

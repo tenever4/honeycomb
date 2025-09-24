@@ -1,0 +1,51 @@
+.root {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+}
+
+.marker {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 2px;
+    height: 10px;
+    background: #fff;
+    border-radius: 1px;
+    transition: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+
+.markerActive {
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 7px rgba(255, 255, 255, 0.16);
+    transition: none;
+}
+
+.evt {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+}
+
+.evtLabel {
+    padding-right: 20px;
+    display: inline-block;
+    color: #fff;
+    flex-grow: 1;
+}
+
+.evtDur {
+    display: inline-block;
+    color: #a9a9a9;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.evtTooltip {
+    background-color: #2b373e;
+    padding: 7px;
+}

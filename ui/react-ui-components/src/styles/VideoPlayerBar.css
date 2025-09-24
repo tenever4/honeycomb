@@ -1,0 +1,101 @@
+.root {
+    background: #13191c;
+    position: relative;
+
+    /* See issue #1445 */
+    margin: 0 2px;
+}
+
+.slider {
+    position: absolute;
+    transform: translate(0, -50%);
+    z-index: 1;
+}
+
+.dataVolume {
+    transform: scaleY(0);
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.dataVolumeLabels {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin: 5px;
+    padding: 5px;
+    right: 0;
+    top: -30px;
+    transform: translate(0, -100%);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.dataVolumeLabelSwatch {
+    width: 10px;
+    height: 10px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5px;
+}
+
+.root:hover > .dataVolume {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.root:hover > .dataVolumeLabels {
+    opacity: 1;
+}
+
+.buttonBar {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: 4px 7px;
+    text-align: left;
+}
+
+.buttonBarCenter {
+    flex: 1 1;
+    display: inline-block;
+    padding: 0px 14px;
+}
+
+.buttonBarRight {
+    white-space: nowrap;
+}
+
+.liveIndicator {
+    opacity: 0.5;
+    display: inline-block;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+.liveIndicator::after {
+    content: 'LIVE';
+}
+
+.liveIndicator::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: white;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.liveIndicator.isLive {
+    opacity: 1.0;
+}
+
+.liveIndicator:hover {
+    opacity: 1.0;
+}
+
+.hidden {
+    display: none;
+}

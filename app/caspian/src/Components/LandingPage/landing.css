@@ -1,0 +1,87 @@
+.root {
+    background: #131619;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
+}
+
+.main {
+    order: 1;
+    flex-grow: 1;
+    padding: 50px;
+}
+
+.helpIcon {
+    color: #D3DAE2;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.bugIcon {
+    color: #D3DAE2;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.link {
+    color: #D3DAE2;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.snackbarError {
+    color: white;
+    background: #E91E63;
+}
+
+.snackbarContent {
+    display: flex;
+    align-items: center;
+}
+
+.snackbarText {
+    margin-left: 10px;
+}
+
+.snackbarIcon {
+    font-size: 20px;
+}
+
+.searchList {
+    border: solid 2px rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    border-radius: 3px;
+    max-height: 250px;
+    overflow: auto;
+    margin-bottom: 8px;
+}
+
+.searchSubheader {
+    background: #131619;
+    border-bottom: solid 1px;
+}
+
+.searchUl {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.searchListItem {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.searchListItemText {
+    max-width: 80%;
+}
+
+.selectedFilesList {
+    flex-grow: 1;
+    max-height: 250px;
+    overflow: auto;
+}

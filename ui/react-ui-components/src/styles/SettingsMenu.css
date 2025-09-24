@@ -1,0 +1,39 @@
+.root {
+    display: flex;
+    max-height: 50vh;
+}
+
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.midColumn {
+    margin-right: 8px;
+}
+
+.rightColumn {
+    overflow-y: auto;
+}
+
+.submenu {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.submenuItem {
+    margin-top: 5px;
+}
+
+.gitHash {
+    display: flex;
+    opacity: 0.5;
+}
+
+.gitHash>span:first-child {
+    flex: 1;
+}

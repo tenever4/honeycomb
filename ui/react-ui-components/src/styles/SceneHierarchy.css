@@ -1,0 +1,23 @@
+.arrow {
+    vertical-align: middle;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.item {
+    white-space: pre;
+    display: flex;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.item span {
+    flex: 1;
+    display: inline-block;
+}

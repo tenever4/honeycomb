@@ -1,0 +1,29 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/core",
+  "description": "Framework for processing and displaying robotics telemetry.",
+  "version": "1.1.15",
+  "dependencies": {
+    "@gov.nasa.jpl.honeycomb/event-dispatcher": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/geometry-optimization-utils": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/interaction-manager": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/model-cache": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/scene-viewers": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/scheduling-utilities": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/tag-tracker": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/telemetry-animator": "^1.1.15",
+    "@gov.nasa.jpl.honeycomb/three-extensions": "^1.1.15",
+    "lodash.mergewith": "^4.6.2",
+    "three": "^0.169.0"
+  },
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "devDependencies": {
+    "@types/lodash.mergewith": "^4.6.7"
+  },
+  "gitHead": "d671cf0fcdba4a75b37ab8a9b948067f0d5e99ba"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/event-dispatcher",
+  "description": "Class for registering for and dispatching events.",
+  "version": "1.1.15",
+  "main": "src/EventDispatcher.ts",
+  "module": "src/EventDispatcher.ts",
+  "scripts": {
+    "test": "echo \"Warn: no test specified\""
+  },
+  "sideEffects": false,
+  "type": "module",
+  "gitHead": "d671cf0fcdba4a75b37ab8a9b948067f0d5e99ba"
+}

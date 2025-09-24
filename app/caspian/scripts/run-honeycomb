@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo Starting Honeycomb with --no-sandbox
+
+fullPath=$(realpath $0)
+scriptDir=$(dirname $fullPath)
+
+$scriptDir/honeycomb-app --no-sandbox

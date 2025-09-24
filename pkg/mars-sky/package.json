@@ -1,0 +1,16 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/mars-sky",
+  "description": "Sky shader for mars in three.js.",
+  "version": "1.1.15",
+  "dependencies": {
+    "three": "^0.169.0"
+  },
+  "main": "src/MarsSky.ts",
+  "module": "src/MarsSky.ts",
+  "scripts": {
+    "test": "echo \"Warn: no test specified\" && exit 0"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "gitHead": "d671cf0fcdba4a75b37ab8a9b948067f0d5e99ba"
+}

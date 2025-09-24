@@ -1,0 +1,12 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/arksml-loader",
+  "description": "Class for loading and parsing the ARKSML file format.",
+  "version": "0.0.29",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "sideEffects": false,
+  "type": "module"
+}

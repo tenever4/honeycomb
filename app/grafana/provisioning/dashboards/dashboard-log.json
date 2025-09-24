@@ -1,0 +1,698 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 15,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "dataVolumes": [
+          {
+            "color": "#FADE2A",
+            "field": "{name=\"pose_position_X\", source=\"rover\"}",
+            "name": ""
+          }
+        ],
+        "frameTrajectoriesOptions": {
+          "frameTrajectories": [
+            {
+              "color": "#73BF69",
+              "frame": "56bbb9e8617",
+              "name": "rover"
+            }
+          ],
+          "renderOrder": 10,
+          "timeStep": 1000
+        },
+        "scene": [
+          {
+            "id": "49b6121440d",
+            "name": "Rover Container",
+            "orientation": {
+              "type": 1,
+              "w": {
+                "field": "{name=\"pose_orientation_W\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 1
+              },
+              "x": {
+                "field": "{name=\"pose_orientation_X\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 0
+              },
+              "y": {
+                "field": "{name=\"pose_orientation_Y\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 0
+              },
+              "z": {
+                "field": "{name=\"pose_orientation_Z\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 0
+              }
+            },
+            "position": {
+              "x": {
+                "field": "{name=\"pose_position_X\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 0
+              },
+              "y": {
+                "field": "{name=\"pose_position_Y\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 0
+              },
+              "z": {
+                "field": "{name=\"pose_position_Z\", source=\"rover\"}",
+                "interpolate": false,
+                "type": 1,
+                "value": 0
+              }
+            },
+            "type": "frame"
+          },
+          {
+            "id": "56bbb9e8617",
+            "label": {
+              "text": "2",
+              "x": 0,
+              "y": 0,
+              "z": -0.5
+            },
+            "model": {
+              "options": {
+                "ignoreJointLimits": false,
+                "parseCollision": false,
+                "parseVisual": true
+              },
+              "path": "./public/plugins/jpl-honeycomb-panel/static/24584_Curiosity_static.glb"
+            },
+            "name": "Rover",
+            "orientation": {
+              "type": 0,
+              "w": {
+                "type": 0,
+                "value": 1
+              },
+              "x": {
+                "type": 0,
+                "value": -1.57079632679
+              },
+              "y": {
+                "type": 0,
+                "value": 1.57079632679
+              },
+              "z": {
+                "type": 0,
+                "value": 0
+              }
+            },
+            "parent": "49b6121440d",
+            "position": {
+              "x": {
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "type": 0,
+                "value": 0
+              }
+            },
+            "tags": [
+              "Model"
+            ],
+            "type": "model"
+          },
+          {
+            "id": "521e7f3dbd4",
+            "name": "Left Track",
+            "orientation": {
+              "type": 1,
+              "w": {
+                "interpolate": true,
+                "type": 0,
+                "value": 1
+              },
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "parent": "49b6121440d",
+            "position": {
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": -0.2
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "type": "frame"
+          },
+          {
+            "id": "21e7f3dbd4c",
+            "name": "Right Track",
+            "orientation": {
+              "type": 1,
+              "w": {
+                "interpolate": true,
+                "type": 0,
+                "value": 1
+              },
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "parent": "49b6121440d",
+            "position": {
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0.2
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "type": "frame"
+          },
+          {
+            "annotation": {
+              "channels": {
+                "scaleX": {
+                  "field": "always_safe_rover_footprint_radius",
+                  "type": 1,
+                  "value": 1
+                },
+                "scaleY": {
+                  "field": "always_safe_rover_footprint_radius",
+                  "type": 1,
+                  "value": 1
+                },
+                "scaleZ": {
+                  "field": "always_safe_rover_footprint_radius",
+                  "type": 1,
+                  "value": 1
+                }
+              },
+              "options": {
+                "color": "#73BF69",
+                "depthTest": true,
+                "geometry": "circle",
+                "opacity": 1,
+                "renderOrder": 11,
+                "shaded": false,
+                "unscaledThickness": 0.1
+              },
+              "staleBehavior": "invisible",
+              "staleThreshold": false,
+              "type": "marker"
+            },
+            "description": "always_safe_rover_footprint_radius",
+            "id": "9530a52f867",
+            "name": "Footprint",
+            "orientation": {
+              "type": 2,
+              "w": {
+                "interpolate": true,
+                "type": 0,
+                "value": 1
+              },
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "parent": "5b5ca0445f8",
+            "position": {
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "tags": [
+              "footprint"
+            ],
+            "type": "annotation"
+          },
+          {
+            "annotation": {
+              "channels": {
+                "scaleX": {
+                  "field": "robot_radius_m",
+                  "type": 1,
+                  "value": 1.5
+                },
+                "scaleY": {
+                  "field": "robot_radius_m",
+                  "type": 1,
+                  "value": 1
+                },
+                "scaleZ": {
+                  "field": "robot_radius_m",
+                  "type": 1,
+                  "value": 1
+                }
+              },
+              "options": {
+                "color": "#DEB6F2",
+                "depthTest": true,
+                "geometry": "circle",
+                "opacity": 1,
+                "renderOrder": 11,
+                "shaded": false,
+                "unscaledThickness": 0.1
+              },
+              "staleBehavior": "invisible",
+              "staleThreshold": false,
+              "type": "marker"
+            },
+            "description": "Robot radius",
+            "id": "4820050533e",
+            "name": "Radius",
+            "orientation": {
+              "type": 0,
+              "w": {
+                "interpolate": true,
+                "type": 0,
+                "value": 1
+              },
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "parent": "5b5ca0445f8",
+            "position": {
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "tags": [
+              "robot_radius"
+            ],
+            "type": "annotation"
+          },
+          {
+            "description": "",
+            "id": "5b5ca0445f8",
+            "name": "Safe Zones",
+            "orientation": {
+              "type": 1,
+              "w": {
+                "interpolate": true,
+                "type": 0,
+                "value": 1
+              },
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "parent": "49b6121440d",
+            "position": {
+              "x": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "y": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              },
+              "z": {
+                "interpolate": true,
+                "type": 0,
+                "value": 0
+              }
+            },
+            "tags": [
+              "safe_zone"
+            ],
+            "type": "frame"
+          }
+        ],
+        "tagGroups": [
+          {
+            "description": "Safe Zones",
+            "items": [
+              "footprint",
+              "robot_radius"
+            ],
+            "name": "Safe Zones"
+          }
+        ],
+        "widgetGroups": [
+          {
+            "description": "Rover Safe zone settings",
+            "items": [
+              "9530a52f867",
+              "45b5ca0445f",
+              "4820050533e"
+            ],
+            "name": "Safe Zone"
+          }
+        ],
+        "worldOptions": {
+          "gridVisibility": true,
+          "playbackSpeed": 10,
+          "sunIntensity": 1,
+          "up": "-Z",
+          "viewCube": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${datasource}"
+          },
+          "query": "from(bucket: \"${bucket}\")\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n|> filter(fn: (r) => r._field == \"value\")\n|> filter(fn: (r) =>\n    r._measurement =~ /pose_position_[XYZ]/ or\n    r._measurement =~ /pose_orientation_[XYZW]/\n)\n|> keep(columns: [\"name\", \"source\", \"_time\", \"_value\"])\n",
+          "refId": "Kinematics"
+        },
+        {
+          "csvContent": "Time,always_safe_rover_footprint_radius,robot_radius_m\n0,0.25,0.525\n",
+          "datasource": {
+            "type": "grafana-testdata-datasource",
+            "uid": "be2z0c9i77doge"
+          },
+          "refId": "A",
+          "scenarioId": "csv_content"
+        }
+      ],
+      "title": "Panel Title",
+      "type": "jpl-honeycomb-panel"
+    },
+    {
+      "datasource": {
+        "name": "${datasource}",
+        "type": "influxdb",
+        "uid": "${datasource}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": 600000,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 15,
+        "w": 9,
+        "x": 15,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${datasource}"
+          },
+          "query": "from(bucket: \"${bucket}\")\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n|> filter(fn: (r) => r._field == \"value\")\n|> filter(fn: (r) =>\n    r._measurement =~ /pose_position_[XYZ]/ or\n    r._measurement =~ /pose_orientation_[XYZW]/\n)\n|> keep(columns: [\"name\", \"source\", \"_time\", \"_value\"])\n|> group(columns: [\"source\", \"name\"])\n|> aggregateWindow(every: 2s, fn: mean, createEmpty: false)\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Panel Title",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "{name=\"pose_orientation_W\", source=\"rover\"}": "QW",
+              "{name=\"pose_orientation_X\", source=\"rover\"}": "QX",
+              "{name=\"pose_orientation_Y\", source=\"rover\"}": "QY",
+              "{name=\"pose_orientation_Z\", source=\"rover\"}": "QZ",
+              "{name=\"pose_position_X\", source=\"rover\"}": "X",
+              "{name=\"pose_position_Y\", source=\"rover\"}": "Y",
+              "{name=\"pose_position_Z\", source=\"rover\"}": "Z"
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "influxdb",
+          "value": "adz09iq6tmmf4e"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "honeycomb",
+          "value": "honeycomb"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${datasource}"
+        },
+        "definition": "buckets()\n |> keep(columns: [\"name\"])\n |> filter(fn: (r) => r[\"name\"] != \".auth\")\n",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "bucket",
+        "options": [],
+        "query": {
+          "query": "buckets()\n |> keep(columns: [\"name\"])\n |> filter(fn: (r) => r[\"name\"] != \".auth\")\n"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2025-07-02T21:00:00.000Z",
+    "to": "2025-07-02T22:00:00.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Development - LOG Files",
+  "uid": "9ad9a535-e11a-4da7-b13a-8baf9a265bf7",
+  "version": 6,
+  "weekStart": ""
+}

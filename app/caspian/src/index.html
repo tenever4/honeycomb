@@ -1,0 +1,41 @@
+<!DocType html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <title>Honeycomb</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+            background: #131619;
+        }
+
+        #AppContainer {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="AppContainer"></div>
+
+    <!-- Templating for HtmlWebpackPlugin so our assets are placed where we want them -->
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.css %>">
+    <script charset="UTF-8" src="<%= htmlWebpackPlugin.files.js %>"></script>
+</body>
+
+</html>

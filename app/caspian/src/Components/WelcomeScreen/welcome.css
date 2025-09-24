@@ -1,0 +1,121 @@
+.root {
+    background: #131619;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main {
+    order: 1;
+    flex-grow: 1;
+    padding: 50px;
+}
+
+.welcomeHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.welcomeBody {
+    display: flex;
+    flex-direction: row;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.telemFilePicker {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropZoneLabel {
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gettingStartedEntry {
+    display: flex;
+    flex-direction: row;
+}
+
+.link {
+    color: #D3DAE2;
+}
+
+.link:hover {
+    cursor: pointer;
+}
+
+.dropZone {
+    height: 180px;
+    background: #636A72;
+    border: 2px dashed #999898;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.dropZone:hover {
+    cursor: pointer;
+}
+
+.goButton {
+    background: #77BBFF;
+    color: #fff;
+}
+
+.goButton:hover {
+    background: #99CCFF;
+}
+
+.goButton:disabled {
+    background: #183E59;
+}
+
+.chooseFile {
+    color: #56CCF2;
+}
+
+.chooseFile:hover {
+    cursor: pointer;
+}
+
+.telemFile:hover * {
+    color: #D3DAE2;
+    opacity: 1;
+}
+
+.selectedFile:hover {
+    color: #D3DAE2;
+}
+
+.addFileIcon {
+    color: #D3DAE2;
+    font-size: 47px;
+}
+
+.fileIcon {
+    color: #999EA3;
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.bugIcon {
+    color: #D3DAE2;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.helpIcon {
+    color: #D3DAE2;
+    font-size: 20px;
+    margin-right: 8px;
+}
+
+.clearButtonIcon {
+    opacity: 0;
+}

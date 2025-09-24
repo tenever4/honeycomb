@@ -1,0 +1,26 @@
+.connectedIndicator {
+    z-index: 1000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    align-items: center;
+    display: flex;
+    margin: 10px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.connectedIndicator::before {
+    display: inline-block;
+    background-color: #e91e63;
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+.connectedIndicator.connected::before {
+    background-color: #4caf50;
+}

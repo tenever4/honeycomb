@@ -1,0 +1,16 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/pgm-loader",
+  "description": "Loader and parser for the PGM image format for three.js.",
+  "version": "1.1.15",
+  "dependencies": {
+    "three": "^0.169.0"
+  },
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "scripts": {
+    "test": "echo \"WARN: no test specified\""
+  },
+  "sideEffects": false,
+  "type": "module",
+  "gitHead": "d671cf0fcdba4a75b37ab8a9b948067f0d5e99ba"
+}

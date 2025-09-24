@@ -1,0 +1,20 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/rosbag-loader",
+  "description": "Loader and parser for processing rosbag files.",
+  "version": "0.0.28",
+  "dependencies": {
+    "@foxglove/rosbag": "^0.1.2",
+    "@foxglove/rostime": "^1.1.0",
+    "lz4js": "^0.2.0"
+  },
+  "devDependencies": {
+    "jsdom": "^17.0.0"
+  },
+  "main": "src/RosbagLoader.js",
+  "module": "src/RosbagLoader.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "sideEffects": false,
+  "type": "module"
+}

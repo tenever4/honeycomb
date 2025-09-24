@@ -1,0 +1,44 @@
+.root {
+    vertical-align: middle;
+    align-items: center;
+    display: inline-block;
+}
+
+.prefix,
+.relCurrTime,
+.relDuration,
+.absTimeFormat {
+    display: inline-block;
+}
+
+.absTime {
+    display: inline-block;
+    background: inherit;
+    border: inherit;
+    font-size: inherit;
+}
+
+.relCurrTime,
+.relDuration,
+.playTimeSep {
+    color: #a9a9a9;
+}
+
+.absTime,
+.absTimeFormat {
+    color: white;
+}
+
+.absTimeFormat {
+    margin-left: 7px;
+    margin-right: 24px;
+}
+
+.prefixTimeSep {
+    padding: 0px 7px;
+    color: #fff;
+}
+
+.playTimeSep {
+    padding: 0px 7px;
+}

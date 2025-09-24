@@ -1,0 +1,16 @@
+{
+  "name": "@gov.nasa.jpl.honeycomb/frame-transformer",
+  "description": "Utility for transforming between 3d frames using three.js.",
+  "version": "1.1.15",
+  "dependencies": {
+    "three": "^0.169.0"
+  },
+  "main": "src/FrameTransformer.ts",
+  "module": "src/FrameTransformer.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "gitHead": "d671cf0fcdba4a75b37ab8a9b948067f0d5e99ba"
+}

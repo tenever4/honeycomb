@@ -1,0 +1,11 @@
+.root {
+    display: inline-block;
+}
+
+.popover {
+    padding: 7px;
+}
+
+.noPadding {
+    padding: 0px;
+}
