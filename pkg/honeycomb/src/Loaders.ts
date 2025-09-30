@@ -5,9 +5,8 @@ import { SubLoadingManager } from './SubLoadingManager';
 import { Loader, Object3D, Group, Texture } from 'three';
 import { Driver, LoadingManager, SceneObjectType, type SceneObject } from '.';
 import { TelemetryAnimator } from '@gov.nasa.jpl.honeycomb/telemetry-animator';
-import { type StateBase } from '@gov.nasa.jpl.honeycomb/common';
+import { type StateBase, type Disposable } from '@gov.nasa.jpl.honeycomb/common';
 import { EventDispatcher } from '@gov.nasa.jpl.honeycomb/event-dispatcher';
-import { type Disposable } from "@gov.nasa.jpl.honeycomb/common";
 
 type Options = Record<string, any>;
 
@@ -48,7 +47,12 @@ class CachedTextureLoader extends Loader {
         super(manager);
     }
 
-    load(url: string, onLoad: (t: Texture) => void, onProgress: () => void, onError: (err: any) => void) {
+    load(
+        url: string,
+        onLoad: (t: Texture) => void,
+        onProgress: (e: ProgressEvent) => void,
+        onError: (err: any) => void,
+    ) {
         const ext = path.extname(url).substr(1);
         const { texture, promise } = loadSingleTexture(ext, url, this.options, this.manager);
         promise
@@ -328,8 +332,8 @@ function loadSingleModel(type: string | undefined, _path: string, options: Optio
                                             const perc = ( v * 100 ).toFixed( 0 );
                                             console.log(`${filename}: Computing bounds tree for fast raycasts: ${perc}%`);
                                         }
-                                    }
-                                });
+                            }
+                        });
                             }
                         });
 
@@ -355,7 +359,7 @@ function loadSingleModel(type: string | undefined, _path: string, options: Optio
                     }
                 })
                 .catch(err => {
-                    (<any>subManager).itemError(_path, err);
+                    (subManager as any).itemError(_path, err);
                     reject(err);
                 })
                 .finally(() => {
@@ -379,7 +383,7 @@ function _loadObject(object: SceneObject, manager: LoadingManager): Promise<Obje
         case SceneObjectType.frame:
             return Promise.resolve(new FrameObject());
         case SceneObjectType.annotation:
-            throw new Error("Annotations cannot be loaded with loadObject")
+            throw new Error("Annotations cannot be loaded with loadObject");
     }
 }
 
@@ -477,85 +481,6 @@ async function createDriver(type: string, options: any, manager: LoadingManager)
     }
 }
 
-function resolvePath(basePath: string, p: string) {
-    const rootRegex = /^[/\\]/;
-    const protocolRegex = /^[a-zA-Z]+:[/\\]{2}/;
-    const dataRegex = /^data:/;
-    const blobRegex = /^blob:/;
-
-    // trying to match URLs:
-    // https://data.(tb or dev or sops).m20.jpl.nasa.gov
-    const ocsRegex = /data.[a-zA-Z-]+.m20.jpl.nasa.gov/;
-
-    const isRoot = rootRegex.test(p);
-    const hasProtocol = protocolRegex.test(p);
-    const isDataURL = dataRegex.test(p);
-    const isBlobURL = blobRegex.test(p);
-
-    const isBaseProtocol = protocolRegex.test(basePath);
-    const isOCSURL = ocsRegex.test(basePath);
-
-    // edge case specific for OCS
-    if (isBaseProtocol && isRoot && isOCSURL) {
-        const baseOCSProtocolPath = /^[a-zA-Z]+:[/\\]{2}[a-zA-Z.0-9]+\/[a-zA-z\-0-9]+/;
-        const baseOCSPath = baseOCSProtocolPath.exec(basePath)[0];
-        const res = baseOCSPath + p;
-        return res.replace(/\\/g, '/');
-    }
-
-    let res;
-    if (isRoot || hasProtocol ) {
-        res = p;
-    } else if (isDataURL || isBlobURL) {
-        return p;
-    } else {
-        // check if the base path has an end slash before appending
-        if (/[\\/]$/.test(basePath)) {
-            res = basePath;
-        } else {
-            res = basePath + '/';
-        }
-        res += p;
-    }
-
-    res = res
-        .replace(/\\/g, '/')        // replace forward slashes
-        .replace(/\/\.\//g, '/')    // replace /./
-        .replace(/^\.\//, '');       // replace ./
-
-    // clean up '../'
-    const finalHasProtocol = protocolRegex.test(res);
-    const finalIsRoot = rootRegex.test(res);
-    let prefix = '';
-    let remaining = res;
-    if (finalHasProtocol) {
-        prefix = `${remaining.split('//')[0]}//`;
-        remaining = remaining.replace(protocolRegex, '');
-    }
-
-    const splits = remaining.split(/\//g);
-    if (finalHasProtocol || finalIsRoot) {
-        prefix += splits.shift() + '/';
-    }
-
-    const finalPath = [];
-    for (let i = 0; i < splits.length; i ++) {
-        const token = splits[i];
-        if (token === '..') {
-            const lastToken = finalPath[finalPath.length - 1];
-            if ((finalPath.length || finalIsRoot || finalHasProtocol) && lastToken !== '..') {
-                finalPath.pop();
-            } else {
-                finalPath.push(token);
-            }
-        } else {
-            finalPath.push(token);
-        }
-    }
-
-    return prefix + finalPath.join('/').replace(/\/{1,}/g, '/');
-}
-
 export {
     textureCache,
     objectCache,
@@ -575,5 +500,4 @@ export {
     registerDriver,
     unregisterDriver,
     createDriver,
-    resolvePath
 };

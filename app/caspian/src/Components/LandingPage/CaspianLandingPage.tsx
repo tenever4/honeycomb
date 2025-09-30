@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Typography, Snackbar, SnackbarContent } from '@material-ui/core';
 import { Error } from '@material-ui/icons';
 
@@ -12,16 +12,8 @@ import * as landingStyles from './landing.css';
 
 const LOCAL_STORAGE_KEY = 'honeycomb-settings';
 
-type CaspianLandingPageProps = {
-    malformedURL: boolean;
-};
-
-type CaspianLandingPageState = {
-    selectedFiles: Array<any>
-};
-
-export class CaspianLandingPage extends Component<CaspianLandingPageProps, CaspianLandingPageState> {
-    constructor(props: CaspianLandingPageProps) {
+export class CaspianLandingPage extends Component<any, any> {
+    constructor(props) {
         super(props);
 
         const prevSavedSettingsString = window.localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -35,7 +27,7 @@ export class CaspianLandingPage extends Component<CaspianLandingPageProps, Caspi
         };
     }
 
-    removeTelemFile = (filename: any) => {
+    removeTelemFile = (filename) => {
         const index = this.state.selectedFiles.findIndex(val => {
             return val.full_name === filename;
         });
@@ -46,7 +38,7 @@ export class CaspianLandingPage extends Component<CaspianLandingPageProps, Caspi
         }
     };
 
-    selectTelemFile = (val: any) => {
+    selectTelemFile = (val) => {
         const { selectedFiles } = this.state;
         if (!selectedFiles.includes(val)) {
             const prevFiles = Array.from(selectedFiles);
@@ -83,7 +75,7 @@ export class CaspianLandingPage extends Component<CaspianLandingPageProps, Caspi
                             </div>
                             <div>
                                 <Typography variant="subtitle1" color="textSecondary">
-                                    {(window as any).env?.version||appVersion}
+                                    {(window as any).env?.version || appVersion}
                                 </Typography>
                             </div>
                         </div>
@@ -118,7 +110,7 @@ export class CaspianLandingPage extends Component<CaspianLandingPageProps, Caspi
                             <span className={landingStyles.snackbarContent}>
                                 <Error className={landingStyles.snackbarIcon} />
                                 <span className={landingStyles.snackbarText}>
-                                    Could not load URL configuration!<br/>
+                                    Could not load URL configuration!<br />
                                     Please check if you've copied the original link correctly
                                     or manually search for files.
                                 </span>

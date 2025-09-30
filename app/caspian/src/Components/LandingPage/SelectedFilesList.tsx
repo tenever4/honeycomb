@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import {
     Button,
     Typography,
@@ -7,13 +7,7 @@ import {
 import { TelemFile } from '../WelcomeScreen/TelemFile';
 import * as landingStyles from './landing.css';
 
-type SelectedFilesListProps = {
-    selectedFiles: Array<any>;
-    removeTelemFile: any;
-    handleGoClicked: any;
-}
-
-export class SelectedFilesList extends Component<SelectedFilesListProps> {
+export class SelectedFilesList extends Component<any, any> {
     render() {
         const { selectedFiles, removeTelemFile, handleGoClicked } = this.props;
 
@@ -46,7 +40,7 @@ export class SelectedFilesList extends Component<SelectedFilesListProps> {
                             variant="contained"
                             onClick={handleGoClicked}
                         >
-                                GO
+                            GO
                         </Button>
                     </div>
                 </div>

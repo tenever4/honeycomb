@@ -1,12 +1,10 @@
-import React from 'react';
 import { BufferGeometry, Mesh, Vector3 } from 'three';
-import { IconMenu } from '@gov.nasa.jpl.honeycomb/react-ui-components';
+import { IconMenu } from './IconMenu';
 import { Palette } from '@material-ui/icons';
 import { ColorLabel } from './ColorLabel';
 
 import { computeBoundsTree, disposeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
-
-import { HoneycombBaseApp } from '@gov.nasa.jpl.honeycomb/base-app';
+import { HoneycombBaseApp } from './BaseApp/HoneycombBaseApp';
 
 const tempVec3 = new Vector3();
 const tempVec3_2 = new Vector3();
@@ -29,8 +27,8 @@ export class App extends HoneycombBaseApp {
         // - honeycomb/modules/honeycomb/src/Loaders.ts
         // - useOptimizedRaycast option in ModelObject in 
         //   honeycomb/modules/honeycomb/src/scene.ts
-        (BufferGeometry.prototype as any).computeBoundsTree = computeBoundsTree;
-        (BufferGeometry.prototype as any).disposeBoundsTree = disposeBoundsTree;
+        BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
+        BufferGeometry.prototype.disposeBoundsTree = disposeBoundsTree;
         Mesh.prototype.raycast = acceleratedRaycast;
 
     }
@@ -65,7 +63,7 @@ export class App extends HoneycombBaseApp {
                     {
                         let terrainActivated = false;
                         terrainSettings.forEach(val => {
-                            terrainActivated |= val.value;
+                            terrainActivated = terrainActivated || Boolean(val.value);
                         });
                         terrainSettings.forEach(val => {
                             val.onChange(null, !terrainActivated);

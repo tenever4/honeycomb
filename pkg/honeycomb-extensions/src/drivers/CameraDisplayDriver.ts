@@ -326,7 +326,7 @@ export class CameraDisplayDriver extends Driver<object> {
             renderer.render(scene, camera);
 
             // distort
-            const distortMaterial = fsQuad.material as CahvoreDistortionMaterial;
+            const distortMaterial = this.fsQuad.material as CahvoreDistortionMaterial;
             distortedRenderTarget.setSize(
                 Math.floor(pixelRatio * previewSize.width),
                 Math.floor(pixelRatio * previewSize.height),
@@ -397,7 +397,7 @@ export class CameraDisplayDriver extends Driver<object> {
                         group.quaternion,
                     );
                     info.validFrame = true;
-                    
+
                     const reparentFrame = model.reparentFrameName ? robot.frames[model.reparentFrameName] : undefined;
                     if (reparentFrame) {
                         console.log('Attaching camera frustum ' + name + ' to ' + reparentFrame.name);

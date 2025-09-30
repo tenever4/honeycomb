@@ -1,8 +1,8 @@
 export { TelemetryAnimator } from './TelemetryAnimator';
+export { CustomTelemetryAnimator } from './CustomTelemetryAnimator';
 export { JoinedTelemetryAnimator } from './JoinedTelemetryAnimator';
 export { NestedTelemetryAnimator } from './NestedTelemetryAnimator';
 export { BufferedAnimatorMixin } from './BufferedAnimatorMixin';
-export { CustomTelemetryAnimator } from './CustomTelemetryAnimator';
 export { LiveAnimator } from './LiveAnimator';
 export { LookAheadAnimatorMixin } from './LookAheadAnimatorMixin';
 export { type KeyframeAnimator, KeyframeAnimatorMixin } from './KeyframeAnimatorMixin';

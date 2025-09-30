@@ -2,14 +2,21 @@
     "compilerOptions": {
         "module": "ESNext",
         "moduleResolution": "Bundler",
-        "target": "ES2022",
-        "jsx": "react",
+        "target": "ES2020",
+        "jsx": "react-jsx",
         "allowImportingTsExtensions": true,
         "strictNullChecks": true,
         "strictFunctionTypes": true
     },
     "exclude": [
+        ".git",
+        ".npm",
+        ".npm-tmp",
+        "dist",
         "node_modules",
-        "**/node_modules/*"
+        "node_modules/**",
+        "**/dist/*",
+        "**/node_modules/*",
+        "**/node_modules/**",
     ]
 }

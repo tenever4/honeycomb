@@ -1,11 +1,9 @@
 import * as Honeycomb from '@gov.nasa.jpl.honeycomb/core';
 import { registerCommonLoaders } from '@gov.nasa.jpl.honeycomb/extensions';
-import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { ipcRenderer } from 'electron';
 import path from 'path';
 import { FocusCamViewerMixin, ViewCubeViewerMixin, TightShadowViewerMixin } from '@gov.nasa.jpl.honeycomb/scene-viewers';
-import React from 'react';
 import { unmountComponentAtNode, render } from 'react-dom';
 import { App } from '../Components/App';
 import { WelcomePage } from '../Components/WelcomeScreen/WelcomePage';
@@ -13,12 +11,13 @@ import { MuiThemeProvider } from '@material-ui/core';
 
 import { appTheme } from '../theme';
 import { getDefaultConfig } from '../utils';
+import * as Config from '../config';
 
 const LOCAL_STORAGE_KEY = 'honeycomb-settings';
 registerCommonLoaders();
 
 const ViewerClass = ViewCubeViewerMixin(FocusCamViewerMixin(TightShadowViewerMixin(Honeycomb.Viewer)));
-let currViewer: typeof ViewerClass | null = null;
+let currViewer = null;
 
 // Init app
 const appContainer = document.getElementById('AppContainer');
@@ -37,13 +36,13 @@ ipcRenderer.on('loadFilePaths', (event, filePaths) => {
 
 const groundTruthRegex = /.*hdsim.*\.rksml$/;
 
-function loadConfig(filePath: string) {
-    Honeycomb.Config.load(filePath).then((config: any) => {
+function loadConfig(filePath) {
+    Config.load(filePath).then((config) => {
         applyConfig(config);
     });
 }
 
-function applyConfig(config: any) {
+function applyConfig(config) {
     document.title = config.title || 'Honeycomb';
 
     // TODO: unmountComponentAtNode is used in order to "cleanup" the current
@@ -55,12 +54,14 @@ function applyConfig(config: any) {
 
     // create new viewer and cull models that haven't been used for 3 scene loads
     Honeycomb.Loaders.setCacheEnabled(true);
-    Honeycomb.Loaders.cache.markUnused();
+    Honeycomb.Loaders.textureCache.markUnused();
+    Honeycomb.Loaders.objectCache.markUnused();
     render(<App config={config} viewer={currViewer}/>, appContainer);
-    Honeycomb.Loaders.cache.cullUnused(3);
+    Honeycomb.Loaders.textureCache.cullUnused(3);
+    Honeycomb.Loaders.objectCache.cullUnused(3);
 }
 
-function loadFilePaths(filePaths: Array<string>) {
+function loadFilePaths(filePaths) {
     if (filePaths) {
         const json = getDefaultConfig();
         const modelPath =

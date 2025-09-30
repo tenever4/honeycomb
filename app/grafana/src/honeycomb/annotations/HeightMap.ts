@@ -7,11 +7,17 @@ import {
     Vector2
 } from "three";
 
-import { AnnotationRegistryItem, AnnotationSchemaDataModel, ChannelSchemaType } from "../../types";
 import { base64ToArrayBuffer } from "../../honeycomb/utils";
+
 import { SampledTerrain } from "@gov.nasa.jpl.honeycomb/terrain-rendering";
 import { SpatialSampler2D } from "@gov.nasa.jpl.honeycomb/sampler-2d";
-import { Annotation } from "@gov.nasa.jpl.honeycomb/core";
+import {
+    Annotation,
+    AnnotationSchemaDataModel,
+    ChannelSchemaType
+} from "@gov.nasa.jpl.honeycomb/core";
+import { PanelOptionsEditorBuilder } from "@grafana/data";
+import { AnnotationRegistryItem } from "@gov.nasa.jpl.honeycomb/ui";
 
 
 // Stringified version of dataArrayType for storing in panel
@@ -206,8 +212,8 @@ export class HeightMapAnnotation extends Group
         if (this.terrain.sampler) {
             const height = options.cellY;
             const width = options.cellX;
-            this.terrain.sampler.height = height;
-            this.terrain.sampler.width = width;
+            (this.terrain.sampler as SpatialSampler2D).height = height;
+            (this.terrain.sampler as SpatialSampler2D).width = width;
 
             const width1 = width - 1;
             const height1 = height - 1;
@@ -298,7 +304,7 @@ export class HeightMapAnnotation extends Group
         }
 
         if (this.terrain.sampler) {
-            this.terrain.sampler.data = data;
+            (this.terrain.sampler as SpatialSampler2D).data = data;
             this.terrain.update();
 
             const material = (this.terrain.mesh.material as any);
@@ -398,7 +404,9 @@ export const heightMapRegistration = new AnnotationRegistryItem({
             }
         ]
     }
-}).setAnnotationOptions((builder) => {
+});
+
+export const heightMapRegistrationOptions = (builder: PanelOptionsEditorBuilder<HeightMapOptions>) => {
     builder.addSelect({
         path: "dataType",
         name: "Data Type",
@@ -567,4 +575,4 @@ export const heightMapRegistration = new AnnotationRegistryItem({
         showIf: (options) => !!options.handleSpecialValue && options.specialValueApproach === SpecialValueHandling.COLOR,
         defaultValue: '#000'
     });
-});
+};

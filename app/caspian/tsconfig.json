@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "esModuleInterop": true,
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "es2020"
+        ],
+        "allowJs": true,
+        "target": "es2020",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "outDir": "dist",
+
+        // FIXME(tumbar) THIS IS BAD!
+        // This app is legacy and I don't have the time to port it to TypeScript
+        // "noCheck": true,
+    }
+}

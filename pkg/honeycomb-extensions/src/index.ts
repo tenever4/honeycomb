@@ -12,19 +12,14 @@ import { loadGeoTiff } from './models/geoTiffModelLoader';
 
 export * from './drivers/KinematicsDriver';
 export * from './drivers/AnnotationDriver';
+import { loadRos } from './telemetry/loadRos';
+import { loadCSV } from './telemetry/loadCSV';
 
 import {
     loadSGITextureFunction,
     loadPGMTextureFunction,
     loadTextureFunction,
 } from './textures/loadTextureFunctions';
-
-import { loadRos } from './telemetry/loadRos.js';
-import { loadCSV } from './telemetry/loadCSV';
-import { loadRKSML } from './telemetry/loadRKSML.js';
-import { loadARKSML } from './telemetry/loadARKSML.js';
-import { loadM20EnavArksml } from './telemetry/loadM20EnavArksml.js';
-import { loadM20EnavImgs } from './telemetry/loadM20EnavImgs.js';
 
 export function registerCommonLoaders() {
     Loaders.registerDriver('CameraDisplayDriver', async (options, manager) => {
@@ -37,9 +32,11 @@ export function registerCommonLoaders() {
         return new TilesRendererDriver(options, manager);
     });
 
+    Loaders.registerTelemetryAnimatorLoader(['ros', 'rosbag'], loadRos);
+
     Loaders.registerDriver('RosDriver', async ( options, manager ) => {
-        const { RosDriver } = await import('./drivers/RosDriver.js');
-        return new RosDriver(options, manager);
+        const { RosDriver } = await import('./drivers/RosDriver');
+        return new RosDriver(options);
     });
 
     Loaders.registerDriver('KinematicsDriver', async ( options, manager ) => {
@@ -47,40 +44,12 @@ export function registerCommonLoaders() {
         return new KinematicsDriver(manager, options);
     });
 
-    Loaders.registerDriver('ArksmlDriver', async ( options, manager ) => {
-        const { ArksmlDriver } = await import('./drivers/ArksmlDriver.js');
-        return new ArksmlDriver(options, manager);
-    });
-
-    Loaders.registerDriver('MarsSkyDriver', async ( options, manager ) => {
-        const { MarsSkyDriver } = await import('./drivers/MarsSkyDriver.js');
-        return new MarsSkyDriver(options, manager);
-    });
-
-    Loaders.registerDriver('EnavArksmlDriver', async ( options, manager ) => {
-        const { EnavArksmlDriver } = await import('./drivers/EnavArksmlDriver.js');
-        return new EnavArksmlDriver(options, manager);
-    });
-
-    Loaders.registerTelemetryAnimatorLoader('m20-enav-arksml', loadM20EnavArksml);
-
-    Loaders.registerTelemetryAnimatorLoader('m20-enav-imgs', loadM20EnavImgs);
-
-    Loaders.registerDriver('RksmlDriver', async ( options, manager ) => {
-        const { RksmlDriver } = await import('./drivers/RksmlDriver.js');
-        return new RksmlDriver(options, manager);
-    });
-
-    Loaders.registerDriver('RobotKinematicsDriver', async ( options, manager ) => {
-        const { RobotKinematicsDriver } = await import('./drivers/RobotKinematicsDriver.js');
-        return new RobotKinematicsDriver(manager, options);
-    });
-
-    Loaders.registerTelemetryAnimatorLoader(['ros', 'rosbag'], loadRos);
-
     Loaders.registerTelemetryAnimatorLoader('csv', loadCSV);
-    Loaders.registerTelemetryAnimatorLoader('rksml', loadRKSML);
-    Loaders.registerTelemetryAnimatorLoader('arksml', loadARKSML);
+
+    Loaders.registerDriver('KinematicsDriver', async (_, manager) => {
+        const { KinematicsDriver } = await import('./drivers/KinematicsDriver');
+        return new KinematicsDriver(manager);
+    });
 
     // register model loaders
     Loaders.registerModelLoader({

@@ -1,16 +1,17 @@
 import * as Honeycomb from '@gov.nasa.jpl.honeycomb/core';
+import * as Config from "./config";
 import { registerCommonLoaders } from '@gov.nasa.jpl.honeycomb/extensions';
-import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { MuiThemeProvider } from '@material-ui/core';
 import { CaspianLandingPage } from './Components/LandingPage/CaspianLandingPage';
 import { appTheme } from './theme';
 import { getDefaultConfig } from './utils';
 import { App } from './Components/App';
+import { registerCaspianLoaders } from './loaders';
 
 registerCommonLoaders();
+registerCaspianLoaders();
 
 const appContainer = document.getElementById('AppContainer');
 let root = createRoot(appContainer);
@@ -25,13 +26,13 @@ function loadConfig(config, deferLoad) {
     Honeycomb.Loaders.setCacheEnabled(true);
     Honeycomb.Loaders.textureCache.markUnused();
     Honeycomb.Loaders.objectCache.markUnused();
-    
-    root.render(<App config={config} deferLoad={deferLoad}/>);
+
+    root.render(<App config={config} deferLoad={deferLoad} />);
     Honeycomb.Loaders.textureCache.cullUnused(3);
     Honeycomb.Loaders.objectCache.cullUnused(3);
 }
 
-function buildAndLoadConfigFromSelectFiles(selectedFiles: Array<any>, deferLoad = false) {
+function buildAndLoadConfigFromSelectFiles(selectedFiles, deferLoad = false) {
     const defaultConfig = getDefaultConfig();
     const m2020Robot = {
         id: 'm2020',
@@ -96,7 +97,7 @@ function renderMalformedURLPage() {
             <CaspianLandingPage malformedURL={true} />
         </MuiThemeProvider>
     );
-    root.render(landingPage, appContainer);
+    root.render(landingPage);
 }
 
 function reloadPage() {
@@ -110,13 +111,13 @@ function reloadPage() {
     const selectedFilesParams = new URL(window.location.href).searchParams.getAll('selectedFiles');
 
     if (configPath !== '') {
-        Honeycomb.Config.load(configPath).then(config => {
+        Config.load(configPath).then(config => {
             loadConfig(config, true);
         });
     } else if (selectedFilesParams && selectedFilesParams.length > 0) {
         loadConfigFromSearchParams(selectedFilesParams);
     } else if ((window as any).HONEYCOMB_APP_CONFIG_PATH) {
-        Honeycomb.Config.load((window as any).HONEYCOMB_APP_CONFIG_PATH).then(config => {
+        Config.load((window as any).HONEYCOMB_APP_CONFIG_PATH).then(config => {
             loadConfig(config, true);
         });
     } else if ((window as any).HONEYCOMB_APP_CONFIG) {
@@ -124,10 +125,10 @@ function reloadPage() {
     } else {
         const landingPage = (
             <MuiThemeProvider theme={appTheme}>
-                <CaspianLandingPage />
+                <CaspianLandingPage malformedURL={false} />
             </MuiThemeProvider>
         );
-        root.render(landingPage, appContainer);
+        root.render(landingPage);
     }
 }
 
