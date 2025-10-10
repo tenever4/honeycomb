@@ -61,8 +61,14 @@ This is a self-contained web app that utilizes Honeycomb's config files and buil
 
 ![Screenshot](docs/caspian-screenshot.png)
 
+https://github.com/user-attachments/assets/1d39fe77-f64a-4f9d-bb0d-54f1b119e524
+
 ### Quick Setup
 Tested with node v20.
+
+1. Install [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) if you do not have it already
+2. Clone https://github.com/nasa-jpl/honeycomb-caspian-assets
+3. Create a symlink `assets` to the cloned `honeycomb-caspian-assets` repo: `ln -s <path-to-honeycomb-caspian-assets> assets`
 
 ```sh
 $ cd app/caspian
@@ -70,10 +76,15 @@ $ yarn install
 $ yarn start
 ```
 
-Then visit http://localhost:9000/browser/#/assets/configs/csv/test.json
+Then visit one of these examples:
+- http://localhost:9000/browser/#/assets/configs/csv/test.json
+- http://localhost:9000/browser/#/assets/configs/json/2021-06-25-20-14-48_sol00122.json
+
+### UI Tips
+Click into the 3D view to focus on it, then press `r` to make the view follow the robot.
 
 ### Changing the data
-Adjust assets/configs/csv/test.json as necessary.
+Adjust the data in https://github.com/nasa-jpl/honeycomb-caspian-assets as necessary.
 
 ## Credit
 Original design and development of Honeycomb was done by Garrett Johnson and Amos Byon, along with contributions from Katherine Park, Rob Ray, Flynn Platt, Amanda Chung, and Ryan Kinnett. 
